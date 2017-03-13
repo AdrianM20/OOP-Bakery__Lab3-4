@@ -11,3 +11,19 @@ Material create_material(char name[], char supplier[], int quantity, ExpDate exp
 	m1.exp_date = exp_date;
 	return m1;
 }
+
+ExpDate assemble_date(int day, int month, int year)
+{
+	ExpDate new_date;
+	new_date.day = day;
+	new_date.month = month;
+	new_date.year = year;
+	return new_date;
+}
+
+int eq_date(ExpDate date1, ExpDate date2)
+{
+	if (date1.day == date2.day && date1.month == date2.month && date1.year == date2.year)
+		return 1;
+	return 0;
+}

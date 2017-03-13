@@ -27,6 +27,9 @@
     <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Validators.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Material.c">
@@ -44,9 +47,15 @@
     <ClCompile Include="UI.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Validators.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Date-Time.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Return codes.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

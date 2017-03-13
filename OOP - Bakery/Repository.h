@@ -8,4 +8,4 @@ typedef struct MaterialRepository {
 
 MaterialRepository create_repository();
 
-void add_material_repo(MaterialRepository*, Material);
+int add_material_repo(MaterialRepository*, Material);
