@@ -11,10 +11,11 @@ Console create_console(BakeryController *bakery_controller)
 
 void print_menu()
 {
-	printf("\n------------Choose an option---------------\n");
-	printf("1 - Add material\n");
-	printf("2 - List materials\n");
-	printf("\-------------Choose an option---------------\n");
+	printf("\n||------------Choose an option---------------||\n");
+	printf("|| 1 - Add material                          ||\n");
+	printf("|| 2 - List materials                        ||\n");
+	printf("|| 0 - Exit program                          ||\n");
+	printf("||------------Choose an option---------------||\n");
 }
 
 int read_integer_number()
@@ -25,7 +26,7 @@ int read_integer_number()
 	int r;
 
 	while (flag == 0) {
-		printf("Insert option: ");
+		printf("||  Insert option: ");
 		scanf("%s", input);
 		r = sscanf(input, "%d", &res);
 		flag = (r == 1);
@@ -52,7 +53,7 @@ void read_string(char *input, int length)
 void add_material_ui(Console* console)
 {
 	char name[30], supplier[50];
-	int quantity, day, month, year;
+	int quantity, day, month, year, res;
 
 	printf("Insert name of material: ");
 	//TODO read strings with whitespaces
@@ -70,7 +71,30 @@ void add_material_ui(Console* console)
 	printf("Year: ");
 	scanf("%d", &year);
 
-	add_material_ctrl(console->bakery_controller, name, supplier, quantity, day, month, year);
+	res = add_material_ctrl(console->bakery_controller, name, supplier, quantity, day, month, year);
+	switch (res)
+	{
+	case 0:
+	{
+		printf("Material added succesfully.");
+		break;
+	}
+	case 1:
+	{
+		printf("An error occurred: Name or supplier length must be at least 3. Material not added.");
+		break;
+	}
+	case 2:
+	{
+		printf("An error occurred: Quantity should be at least 1. Material not added,");
+		break;
+	}
+	case 3:
+	{
+		printf("An error occurred: Date format incorrect. Material not added.");
+		break;
+	}
+	}
 }
 
 void run_app(Console * console)
@@ -88,7 +112,6 @@ void run_app(Console * console)
 			case 1:
 			{
 				add_material_ui(console);
-				printf("Material succesfully added.\n");
 				break;
 			}
 			case 2:
@@ -97,6 +120,4 @@ void run_app(Console * console)
 		}
 		else printf("Invalid command.\n");
 	}
-
-	system("pause");
 }

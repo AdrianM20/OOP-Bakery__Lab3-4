@@ -7,4 +7,4 @@ typedef struct BakeryController {
 
 BakeryController create_controller(MaterialRepository*);
 
-void add_material_ctrl(BakeryController *bakery_controller, char name[], char supplier[], int quantity, int day, int month, int year);
+int add_material_ctrl(BakeryController *bakery_controller, char name[], char supplier[], int quantity, int day, int month, int year);
