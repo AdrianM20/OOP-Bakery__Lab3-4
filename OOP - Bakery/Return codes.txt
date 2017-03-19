@@ -2,3 +2,4 @@
 1 - name/supplier error
 2 - quantity error
 3 - date error
+4 - material does not exist
