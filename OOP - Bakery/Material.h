@@ -19,3 +19,5 @@ Material create_material(char name[], char supplier[], int quantity, ExpDate exp
 ExpDate assemble_date(int day, int month, int year);
 
 int eq_date(ExpDate date1, ExpDate date2);
+
+char material_to_string(Material, char str[]);

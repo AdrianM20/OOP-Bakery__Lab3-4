@@ -27,7 +27,7 @@ int valid_date(ExpDate exp_date)
 		return 0;
 	if (exp_date.day < 1 || exp_date.day > months[exp_date.month])
 		return 0;
-	if (exp_date.year < 2017 || exp_date.year > 2030)
+	if (exp_date.year < 2010 || exp_date.year > 2030)
 		return 0;
 	return 1;
 }
@@ -50,11 +50,11 @@ int valid_quantity(int quantity)
 
 int validate_material(Material material)
 {
-	if (valid_date(material.exp_date) == 0)
-		return 3;
 	if (valid_names(material.name, material.supplier) == 0)
 		return 1;
 	if (valid_quantity(material.quantity) == 0)
 		return 2;
+	if (valid_date(material.exp_date) == 0)
+		return 3;
 	return 0;
 }
