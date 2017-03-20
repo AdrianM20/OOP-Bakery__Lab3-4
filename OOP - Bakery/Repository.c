@@ -1,5 +1,6 @@
 #include "Repository.h"
 #include "Validators.h"
+#include <assert.h>
 
 MaterialRepository create_repository()
 {
@@ -22,22 +23,6 @@ int find_material(MaterialRepository *material_repository, Material material)
 
 int add_material_repo(MaterialRepository *material_repository, Material material)
 {
-	/*if (find_material(material_repository, material) == -1)
-		if (validate_material(material) == 0) {
-			material_repository->materials[material_repository->length++] = material;
-			return 0;
-		}
-		else
-			return validate_material(material);
-	else
-		if (validate_material(material) == 0) {
-			int poz = find_material(material_repository, material);
-			material_repository->materials[poz].quantity += material.quantity;
-			return 0;
-		}
-		else
-			return validate_material(material);	*/
-
 	if (validate_material(material) == 0) {
 		if (find_material(material_repository, material) == -1) {
 			material_repository->materials[material_repository->length++] = material;
@@ -99,4 +84,64 @@ int update_material_repo(MaterialRepository *material_repository, Material old_m
 				return validate_material(new_material);
 		}
 	}
+}
+
+
+//-----------------Tests------------------------//
+
+void init_repo_test(MaterialRepository* mr)
+{
+	ExpDate exp_date = assemble_date(18, 8, 2017);
+	Material new_material = create_material("Flour", "Grainz", 20, exp_date);
+	add_material_repo(mr, new_material);
+}
+
+void test_add()
+{
+	ExpDate expd = assemble_date(22, 9, 2017);
+	Material m = create_material("Rice", "Panemar", 45, expd);
+
+	MaterialRepository mr = create_repository();
+	init_repo_test(&mr);
+	assert(mr.length == 1);
+
+	assert(add_material_repo(&mr, m) == 0);
+	assert(mr.length == 2);
+}
+
+void test_delete()
+{
+	ExpDate expd1 = assemble_date(22, 9, 2018);
+	Material m1 = create_material("Rice", "Panemar", 45, expd1);
+
+	MaterialRepository mr = create_repository();
+	init_repo_test(&mr);
+	add_material_repo(&mr, m1);
+	assert(mr.length == 2);
+
+	assert(delete_material_repo(&mr, m1) == 0);
+	assert(mr.length == 1);
+	assert(delete_material_repo(&mr, m1) == 4);
+}
+
+void test_update()
+{
+	ExpDate expd1 = assemble_date(22, 9, 2018);
+	Material m1 = create_material("Rice", "Panemar", 45, expd1);
+
+	MaterialRepository mr = create_repository();
+	init_repo_test(&mr);
+	add_material_repo(&mr, m1);
+	assert(mr.length == 2);
+
+	Material m2 = create_material("Rice", "Grainz", 65, expd1);
+	assert(update_material_repo(&mr, m1, m2) == 0);
+	assert(strcmp(&mr.materials[find_material(&mr, m2)].supplier,"Grainz") == 0);
+}
+
+void test_material_repo()
+{
+	test_add();
+	test_delete();
+	test_update();
 }
