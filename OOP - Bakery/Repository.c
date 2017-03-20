@@ -53,7 +53,7 @@ int add_material_repo(MaterialRepository *material_repository, Material material
 		return validate_material(material);
 }
 
-void shift_repo(MaterialRepository *material_repository, int position)
+void shift_repo_left(MaterialRepository *material_repository, int position)
 {
 	for (int i = position; i < material_repository->length; i++)
 		material_repository->materials[i] = material_repository->materials[i + 1];
@@ -68,7 +68,7 @@ int delete_material_repo(MaterialRepository *material_repository, Material mater
 		else
 		{
 			int poz = find_material(material_repository, material);
-			shift_repo(material_repository, poz);
+			shift_repo_left(material_repository, poz);
 			return 0;
 		}
 	}
