@@ -96,7 +96,7 @@ void init_repo_test(MaterialRepository* mr)
 	add_material_repo(mr, new_material);
 }
 
-void test_add()
+void test_add_repo()
 {
 	ExpDate expd = assemble_date(22, 9, 2017);
 	Material m = create_material("Rice", "Panemar", 45, expd);
@@ -109,7 +109,7 @@ void test_add()
 	assert(mr.length == 2);
 }
 
-void test_delete()
+void test_delete_repo()
 {
 	ExpDate expd1 = assemble_date(22, 9, 2018);
 	Material m1 = create_material("Rice", "Panemar", 45, expd1);
@@ -124,7 +124,7 @@ void test_delete()
 	assert(delete_material_repo(&mr, m1) == 4);
 }
 
-void test_update()
+void test_update_repo()
 {
 	ExpDate expd1 = assemble_date(22, 9, 2018);
 	Material m1 = create_material("Rice", "Panemar", 45, expd1);
@@ -141,7 +141,7 @@ void test_update()
 
 void test_material_repo()
 {
-	test_add();
-	test_delete();
-	test_update();
+	test_add_repo();
+	test_delete_repo();
+	test_update_repo();
 }

@@ -17,6 +17,7 @@ void print_menu()
 	printf("|| 3 - Update material                       ||\n");
 	printf("|| 4 - List materials                        ||\n");
 	printf("|| 5 - List expired materials                ||\n");
+	printf("|| 6 - Print materials from a supplier       ||\n");
 	printf("|| 0 - Exit program                          ||\n");
 	printf("||------------Choose an option---------------||\n");
 }
@@ -41,7 +42,7 @@ int read_integer_number()
 
 int valid_command(int command)
 {
-	if (command >= 0 && command <= 5)
+	if (command >= 0 && command <= 6)
 		return 1;
 	return 0;
 }
@@ -260,7 +261,7 @@ void list_material_ui(Console *console)
 	}
 }
 
-void list_expired_materials_ui(Console* console)
+void list_expired_materials_ui(Console *console)
 {
 	int positions[100], length = 0;
 	int* len_p = &length;
@@ -279,6 +280,31 @@ void list_expired_materials_ui(Console* console)
 		for (int i = 0; i < length; i++) {
 			char str[200];
 			material_to_string(console->bakery_controller->material_repository->materials[positions[i]], str);
+			printf("%s\n", str);
+		}
+	}
+}
+
+void list_materials_from_supplier(Console *console)
+{
+	Material materials_array[100];
+	int length= 0;
+	int *len_p = &length;
+	char supplier_name[50], dump[4];
+
+	gets(dump);
+	printf("Insert the name of supplier: ");
+	read_string(supplier_name, 49);
+
+	get_supplier_materials(console->bakery_controller, materials_array, len_p, supplier_name);
+
+	if (length == 0)
+		printf("\nThere are no materials from this supplier.\n");
+	else {
+		printf("\nThe materials from this supplier are: \n");
+		for (int i = 0; i < length; i++) {
+			char str[200];
+			material_to_string(materials_array[i], str);
 			printf("%s\n", str);
 		}
 	}
@@ -320,6 +346,11 @@ void run_app(Console * console)
 			case 5:
 			{
 				list_expired_materials_ui(console);
+				break;
+			}
+			case 6:
+			{
+				list_materials_from_supplier(console);
 				break;
 			}
 			}

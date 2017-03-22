@@ -71,3 +71,14 @@ void get_expired_materials(BakeryController*, int pos_array[], int* length);
 /// <param name = "length">Pointer to the length of the pos_array</param>
 /// <param name = "str">The string which must be contained</param>
 void filter_expired_str(BakeryController*, int pos_array[], int* length, char str[]);
+
+/// <summary>
+/// Get all the material from a specified supplier
+/// </summary>
+/// <param name = "bakery_controller">Pointer to the controller which should handle the operation</param>
+/// <param name = "materials_array">Array of materials from the specified supplier</param>
+/// <param name = "length">Pointer to the length of the materials array</param>
+/// <param name = "supplier">String containing the name of the supplier</param>
+void get_supplier_materials(BakeryController*, Material materials_array[], int* length, char supplier[]);
+
+void test_bakery_controller();
