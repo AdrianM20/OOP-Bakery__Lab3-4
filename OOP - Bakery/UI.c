@@ -15,7 +15,9 @@ void print_menu()
 	printf("|| 1 - Add material                          ||\n");
 	printf("|| 2 - Delete material                       ||\n");
 	printf("|| 3 - Update material                       ||\n");
-	printf("|| 4 - List materials                        ||\n");+
+	printf("|| 4 - List materials                        ||\n");
+	printf("|| 5 - List expired materials                ||\n");
+	printf("|| 6 - Print materials from a supplier       ||\n");
 	printf("|| 0 - Exit program                          ||\n");
 	printf("||------------Choose an option---------------||\n");
 }
@@ -40,7 +42,7 @@ int read_integer_number()
 
 int valid_command(int command)
 {
-	if (command >= 0 && command <= 4)
+	if (command >= 0 && command <= 6)
 		return 1;
 	return 0;
 }
@@ -55,7 +57,7 @@ void read_string(char *input, int length)
 void init_data(Console* console)
 {
 	int res = 0;
-	res = add_material_ctrl(console->bakery_controller, "Flour", "Grainz co", 125, 22, 9, 2017);
+	res = add_material_ctrl(console->bakery_controller, "White Flour", "Grainz co", 125, 22, 9, 2017);
 	if (res != 0)
 		printf("ERROR!\n");
 	res = add_material_ctrl(console->bakery_controller, "Rice", "Grainz co", 45, 15, 3, 2018);
@@ -65,6 +67,9 @@ void init_data(Console* console)
 	if (res != 0)
 		printf("ERROR!\n");
 	res = add_material_ctrl(console->bakery_controller, "Corn", "Old Farm", 28, 15, 4, 2016);
+	if (res != 0)
+		printf("ERROR!\n");
+	res = add_material_ctrl(console->bakery_controller, "Canola", "Pepperidge Farm", 66, 8, 1, 2017);
 	if (res != 0)
 		printf("ERROR!\n");
 }
@@ -244,13 +249,62 @@ void list_material_ui(Console *console)
 	
 	if (len == 0) {
 		char *str = "There are no materials in the deposit.";
-		printf("%s \n", str);
+		printf("\n%s \n", str);
 	}
 	else {
-		printf("The deposit has the following materials:\n");
+		printf("\nThe deposit has the following materials:\n");
 		for (int i = 0; i < console->bakery_controller->material_repository->length; i++) {
 			char str[200];
 			material_to_string(console->bakery_controller->material_repository->materials[i], str);
+			printf("%s\n", str);
+		}
+	}
+}
+
+void list_expired_materials_ui(Console *console)
+{
+	int positions[100], length = 0;
+	int* len_p = &length;
+	char contained_string[30], dump[4];
+
+	gets(dump);
+	printf("Insert the string to be contained: ");
+	read_string(contained_string, 29);
+	
+	filter_expired_str(console->bakery_controller, positions, len_p, contained_string);
+
+	if (length == 0)
+		printf("\nThere are no expired materials containing the given string.\n");
+	else {
+		printf("\nThere are expired materials in the deposit containing the given string: \n");
+		for (int i = 0; i < length; i++) {
+			char str[200];
+			material_to_string(console->bakery_controller->material_repository->materials[positions[i]], str);
+			printf("%s\n", str);
+		}
+	}
+}
+
+void list_materials_from_supplier(Console *console)
+{
+	Material materials_array[100];
+	int length= 0;
+	int *len_p = &length;
+	char supplier_name[50], dump[4];
+
+	gets(dump);
+	printf("Insert the name of supplier: ");
+	read_string(supplier_name, 49);
+
+	get_supplier_materials(console->bakery_controller, materials_array, len_p, supplier_name);
+
+	if (length == 0)
+		printf("\nThere are no materials from this supplier.\n");
+	else {
+		printf("\nThe materials from this supplier are: \n");
+		for (int i = 0; i < length; i++) {
+			char str[200];
+			material_to_string(materials_array[i], str);
 			printf("%s\n", str);
 		}
 	}
@@ -287,6 +341,16 @@ void run_app(Console * console)
 			case 4:
 			{
 				list_material_ui(console);
+				break;
+			}
+			case 5:
+			{
+				list_expired_materials_ui(console);
+				break;
+			}
+			case 6:
+			{
+				list_materials_from_supplier(console);
 				break;
 			}
 			}
