@@ -81,6 +81,13 @@ void get_expired_materials(BakeryController* bakery_controller, int pos_array[],
 }
 
 void shift_array_left(int some_array[], int pos, int *len)
+/*
+	Shifts an array with one position to the left
+
+	Parameters: some_array - array of integers
+				pos - integer representing the starting position for shifting
+				len - pointer to the array length
+*/
 {
 	for (int i = pos; i < (*len); i++)
 		some_array[i] = some_array[i + 1];
